@@ -54,7 +54,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
     @Override
     //根据id查询店铺信息的方法
     public Result queryById(Long id) {
-        //解决缓存穿透
+//        解决缓存穿透
 //        Shop shop = cacheClient.queryWithPassThrough(CACHE_SHOP_KEY, id , Shop.class, this::getById,CACHE_SHOP_TTL,TimeUnit.MINUTES);
 
         //互斥锁解决缓存击穿
@@ -65,7 +65,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
 
 
         //1.从redis查询商铺缓存
-        String key = "cache:shop:" + id;
+        String key = CACHE_SHOP_KEY + id;
         String shopJson = stringRedisTemplate.opsForValue().get(key);
 
         //2.判断是否存在
